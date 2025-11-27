@@ -1,75 +1,80 @@
-import * as React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom'
-
+import React, { useState } from "react";
+import { Menu, MenuItem, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 
 export default function BasicMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const menuAberto = Boolean(menuAnchor);
+
+  const abrirMenu = (e) => {
+    setMenuAnchor(e.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const fecharMenu = () => {
+    setMenuAnchor(null);
   };
 
   return (
     <div>
-  
-  <IconButton
-       id="basic-button"
-       aria-controls={open ? 'basic-menu' : undefined}
-       aria-haspopup="true"
-       aria-expanded={open ? 'true' : undefined}
-       onClick={handleClick}
-       edge="start"
-       color="inherit"
-       aria-label="menu" sx={{ mr: 2 }}
-     >
-       <MenuIcon />
-     </IconButton>
+      <IconButton
+        onClick={abrirMenu}
+        edge="start"
+        color="inherit"
+        aria-haspopup="true"
+        aria-expanded={menuAberto ? "true" : undefined}
+        aria-controls={menuAberto ? "menu-opcoes" : undefined}
+        sx={{ mr: 2 }}
+      >
+        <MenuIcon />
+      </IconButton>
 
       <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
+        id="menu-opcoes"
+        anchorEl={menuAnchor}
+        open={menuAberto}
+        onClose={fecharMenu}
         slotProps={{
           list: {
-            'aria-labelledby': 'basic-button',
+            "aria-labelledby": "menu-opcoes",
           },
         }}
       >
-             <MenuItem
-         onClick={handleClose}
-         component={Link}
-         to="/"
-         divider
-       >
-         Página inicial
-       </MenuItem>
-      
-       <MenuItem
-         onClick={handleClose}
-         component={Link}
-         to="/cars"
-       >
-         Listagem de veículos
-       </MenuItem>
+        <MenuItem
+          onClick={fecharMenu}
+          component={Link}
+          to="/"
+          divider
+        >
+          Página Inicial
+        </MenuItem>
 
+        <MenuItem
+          onClick={fecharMenu}
+          component={Link}
+          to="/cars"
+        >
+          Listagem de Veículos
+        </MenuItem>
 
-       <MenuItem
-         onClick={handleClose}
-         component={Link}
-         to="/customers"
-       >
-         Listagem de clientes
-       </MenuItem>
-     </Menu>
-   </div>
- );
+        <MenuItem
+          onClick={fecharMenu}
+          component={Link}
+          to="/sobre-autor"
+          divider
+        >
+          Sobre o Autor
+        </MenuItem>
+
+        <MenuItem
+          onClick={fecharMenu}
+          component={Link}
+          to="/customers"
+        >
+          Listagem de Clientes
+        </MenuItem>
+      </Menu>
+    </div>
+  );
 }
-
